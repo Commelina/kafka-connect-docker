@@ -23,6 +23,12 @@ jobs:
           cd base
           docker build . -t hstreamdb/kafka-connect-base
 
+      - name: build full image
+        run: |
+          cd full
+          docker build --build-arg CONNECTOR_URLS=$(cat full.list) . -t hstreamdb/kafka-connect-full
+
       - name: Push images to dockerhub
         run: |
           docker push hstreamdb/kafka-connect-base
+          docker push hstreamdb/kafka-connect-full
