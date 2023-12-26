@@ -10,6 +10,10 @@ set -x
 TARGET_DIR=$1
 CONNECTOR_URL=$2
 
+if [[ ! -d $TARGET_DIR ]]; then
+    mkdir $TARGET_DIR -p
+fi
+
 cd $TARGET_DIR
 
 if [[ $CONNECTOR_URL == *.tar.gz ]]; then
