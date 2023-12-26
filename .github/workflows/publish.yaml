@@ -26,7 +26,7 @@ jobs:
       - name: build full image
         run: |
           cd full
-          docker build --build-arg CONNECTOR_URLS=$(cat full.list) . -t hstreamdb/kafka-connect-full
+          docker build --build-arg CONNECTOR_URLS="$(cat full.list)" . -t hstreamdb/kafka-connect-full
 
       - name: Push images to dockerhub
         run: |
