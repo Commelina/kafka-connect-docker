@@ -8,14 +8,18 @@ RUN curl \
 ENV KAFKA_VERSION=3.5.2
 ENV SCALA_VERSION=2.13
 ENV KAFKA_PKG_NAME=kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz
-RUN yum install -y tar gzip
+
+COPY entrypoint.sh /opt/entrypoint.sh
+COPY install-connector.sh /opt/install-connector.sh
+COPY etc/* /etc/kafka/
+
+RUN yum install -y tar gzip unzip
 RUN curl \
     -L https://downloads.apache.org/kafka/${KAFKA_VERSION}/${KAFKA_PKG_NAME} \
     -o /opt/kafka.tgz \
     && mkdir /opt/kafka && tar -zxf /opt/kafka.tgz --strip 1 -C /opt/kafka \
     && rm /opt/kafka.tgz
 
-COPY entrypoint.sh /opt/entrypoint.sh
-COPY etc/* /etc/kafka/
+RUN /opt/install-connector.sh /opt/connectors https://github.com/hstreamdb/kafka-connect-docker/releases/download/v0.0.1/confluentinc-kafka-connect-datagen-0.6.3.zip
 
 CMD ["bash", "-c", "/opt/entrypoint.sh && /opt/kafka/bin/connect.sh /etc/kafka/connect.properties"]
