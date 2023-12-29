@@ -20,7 +20,7 @@
 # the `bootstrap.servers` and those specifying replication factors.
 
 # A list of host/port pairs to use for establishing the initial connection to the Kafka cluster.
-bootstrap.servers=${BOOTSTRAP_SERVERS:-localhost:9092}
+bootstrap.servers=${KAFKA_BOOTSTRAP_SERVERS:-localhost:9092}
 
 # unique name for the cluster, used in forming the Connect cluster group. Note that this must not conflict with consumer group IDs
 group.id=${CONNECT_GROUP_ID:-connect-cluster}
@@ -86,4 +86,4 @@ offset.flush.interval.ms=10000
 # c) directories immediately containing the package directory structure of classes of plugins and their dependencies
 # Examples: 
 # plugin.path=/usr/local/share/java,/usr/local/share/kafka/plugins,/opt/connectors,
-plugin.path=${CONNECTOR_PLUGIN_PATH:-/opt/kafka/libs,/opt/connectors}
+plugin.path=${CONNECT_PLUGIN_PATH:-/opt/kafka/libs,/opt/connectors}
