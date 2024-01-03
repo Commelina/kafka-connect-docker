@@ -6,6 +6,8 @@ mode=${CONNECT_MODE:-standalone}
     -i /etc/kafka/connect-${mode}.properties.tmpl \
     -o /etc/kafka/connect.properties
 
-cp /opt/kafka/bin/connect-${mode}.sh /opt/kafka/bin/connect.sh
+if [[ -n ${JMX_EXPORTER_PORT} ]]; then
+    export KAFKA_OPTS="${KAFKA_OPTS} -javaagent:/opt/jmx.jar=${JMX_EXPORTER_PORT}:/etc/kafka/jmx.yaml"
+fi
 
-exec "$@"
+/opt/kafka/bin/connect-${mode}.sh /etc/kafka/connect.properties
