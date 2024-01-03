@@ -7,6 +7,7 @@ RUN curl \
 
 ENV KAFKA_VERSION=3.5.2
 ENV SCALA_VERSION=2.13
+ENV JMX_VERSION=0.19.0
 ENV KAFKA_PKG_NAME=kafka_${SCALA_VERSION}-${KAFKA_VERSION}.tgz
 
 COPY entrypoint.sh /opt/entrypoint.sh
@@ -21,5 +22,9 @@ RUN curl \
     && rm /opt/kafka.tgz
 
 RUN /opt/install-connector.sh /opt/connectors https://github.com/hstreamdb/kafka-connect-docker/releases/download/v0.0.1/confluentinc-kafka-connect-datagen-0.6.3.zip
+
+RUN curl \
+    -L https://repo1.maven.org/maven2/io/prometheus/jmx/jmx_prometheus_javaagent/${JMX_VERSION}/jmx_prometheus_javaagent-${JMX_VERSION}.jar \
+    -o /opt/jmx.jar
 
 CMD ["bash", "-c", "/opt/entrypoint.sh && /opt/kafka/bin/connect.sh /etc/kafka/connect.properties"]
