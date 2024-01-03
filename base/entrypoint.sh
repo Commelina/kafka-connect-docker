@@ -1,6 +1,6 @@
 #!/bin/bash
 
-mode=${CONNECT_MOD:-standalone}
+mode=${CONNECT_MODE:-standalone}
 
 /opt/envsubst \
     -i /etc/kafka/connect-${mode}.properties.tmpl \
